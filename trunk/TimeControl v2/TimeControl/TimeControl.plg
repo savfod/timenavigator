@@ -1,0 +1,48 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: TimeControl - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSP2BCF.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/TimeControl.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ   /c 
+"D:\my\visual\практика 2008\TimeControl v2\TimeControl\TimeControl.cpp"
+"D:\my\visual\практика 2008\TimeControl v2\TimeControl\TimeControlDoc.cpp"
+"D:\my\visual\практика 2008\TimeControl v2\TimeControl\TimeControlView.cpp"
+"D:\my\visual\практика 2008\TimeControl v2\TimeControl\Task.cpp"
+]
+Creating command line "cl.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSP2BCF.tmp" 
+Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSP2BD0.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/TimeControl.pdb" /debug /machine:I386 /out:"Debug/TimeControl.exe" /pdbtype:sept 
+".\Debug\TimeControl.obj"
+".\Debug\StdAfx.obj"
+".\Debug\MainFrm.obj"
+".\Debug\TimeControlDoc.obj"
+".\Debug\TimeControlView.obj"
+".\Debug\TimeControl.res"
+".\Debug\Task.obj"
+]
+Creating command line "link.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSP2BD0.tmp"
+<h3>Output Window</h3>
+Compiling...
+TimeControlView.cpp
+Generating Code...
+Compiling...
+TimeControlDoc.cpp
+Generating Code...
+Skipping... (no relevant changes detected)
+Task.cpp
+TimeControl.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+TimeControl.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
