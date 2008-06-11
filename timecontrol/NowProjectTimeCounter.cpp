@@ -64,17 +64,7 @@ CString CNowProjectTimeCounter :: ItoS(int seconds)
 	int minutes = seconds/60 - 60*hours;
 	int trueseconds = seconds - 60*minutes - 3600 * hours;
 	
-	int number;  // number of digit
-
-    
 	
-
-	number = hours;
-	int i;
-	for( i = 0; number>0 ; i++)
-		number /= 10;
-	number = i + 1;
-
 
 	CString s_hours;
 	s_hours.Format(_T("%d"), hours);

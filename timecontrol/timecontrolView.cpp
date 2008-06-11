@@ -412,8 +412,10 @@ void CTimecontrolView::OnFileOpen()
 	
 		}
 	}
-
-
+	lstrcpy(CTimecontrolView::m_StandartSavePlace,(m_Open.GetPathName()));
+	CTimecontrolView::wasSaved = TRUE;
+		
+	SetTimer(2,20000,NULL);
 
 }
 
