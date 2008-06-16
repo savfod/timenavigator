@@ -247,6 +247,11 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+    END
     POPUP "&TimeControl"
     BEGIN
         MENUITEM "&Stop time \tEscape",         ID_Stop_Time
@@ -254,11 +259,6 @@ BEGIN
         MENUITEM "&Add task\tCtrl+A",           ID_add_task
         MENUITEM "Delete Task\tDelete",         ID_Delete
         MENUITEM "Correct time\tCtrl+C",        ID_correct
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
     POPUP "&Help"
     BEGIN

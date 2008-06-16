@@ -85,6 +85,7 @@ protected:
 	afx_msg void OnFileNew();
 	afx_msg void OnMenuitem32785();
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
