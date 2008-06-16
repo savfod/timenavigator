@@ -19,7 +19,6 @@ protected: // create from serialization only
 // Attributes
 public:
 
-private:
 	CObList AllTasks;
 	CObList ActiveTasks;
 

@@ -12,30 +12,38 @@
 class CTask : public CObject 
 {
 public:
-	CTask(int Type);
+	CTask(int Type, CString GetName);
 	virtual ~CTask();
 
 
 
-	void Correct(bool IsPlus, CString hours, CString minutes, CString seconds);
+	CString Correct(CString NewName, bool IsNegative, CString hours, CString minutes, CString seconds);
 	CString TimeUpdate();
 	void StartTime();
-	int SetIndex();
+	void StopTime();
+	CString GetName();
 	void Serialize(CArchive& ar);
 	void Archive();
+	void UnArchive();
+	CString GetHours();
+	CString GetMinutes();
+	CString GetSeconds();
+	int GetType();
 private:
 
 	
 	//all time parametres
+	CString Name;
 	bool IsVisible; //it isn't in archieve 
-	CString s_TimeSpent; //time spent on task in string (1:02:01) format
-	int TypeOfTask; // 1 - work, 0 - rest
+	CString s_TimeSpent; //time spent on task in string (1:02:01) format  (in fact, how many time was spent on task, when it become active(s_StartTime))
+	int TypeOfTask; // 0 - work, 1 - rest
 
 	//now parametres
 	bool m_IsActive;
 	time_t t_StartTime; //when became active
-	CString s_StartTime; //how many time have been spent on project, when it became active
-	int m_index; // now index (if is visible);
+	//CString s_StartTime; //how many time have been spent on project, when it became active
+	
+	//int m_index; // now index (if is visible); 
 
 
 	//functions
