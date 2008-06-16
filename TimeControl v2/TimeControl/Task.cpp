@@ -6,6 +6,8 @@
 #include "TimeControl.h"
 #include "Task.h"
 
+IMPLEMENT_SERIAL(CTask, CObject, 0)
+
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
@@ -16,6 +18,9 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+CTask::CTask()
+{
+}
 CTask::CTask(int type,CString GetName)
 {
 	TypeOfTask = type;
@@ -23,7 +28,7 @@ CTask::CTask(int type,CString GetName)
 	
 	IsVisible = TRUE; //it isn't in archieve 
 	s_TimeSpent = "0:00:00"; //time spent on task in string (1:02:01) format
-	m_IsActive = TRUE;
+	//m_IsActive = TRUE;
 	
 	
 }
@@ -35,6 +40,14 @@ CTask::~CTask()
 
 void CTask::Serialize(CArchive& ar)
 {
+	if(ar.IsStoring())
+	{
+		ar << Name << (LONG)IsVisible << s_TimeSpent << (LONG)TypeOfTask;
+	}
+	else
+	{
+		ar >> Name >> (LONG&)IsVisible >> s_TimeSpent >> (LONG&)TypeOfTask;
+	}
 }
 
 
@@ -103,7 +116,7 @@ return (s_hours + s + s_minutes + s + s_seconds);
 
 CString CTask::StringTimeIncrease(int seconds)   //increase time in string (1:02:01) format
 {
-	int time = StoI(s_TimeSpent);
+	int time = StoI(s_StartTime);//
 	
 	if(time + seconds>0)
 	return( ItoS (time + seconds));
@@ -116,6 +129,7 @@ CString CTask::StringTimeIncrease(int seconds)   //increase time in string (1:02
 void CTask::StartTime()
 {
 	t_StartTime = time(NULL);
+	s_StartTime = s_TimeSpent;//
 }
 void CTask::StopTime()
 {
@@ -126,6 +140,7 @@ void CTask::StopTime()
 
 CString CTask::Correct(CString NewName, bool IsNegative, CString hours, CString minutes, CString seconds)
 {
+	s_StartTime = s_TimeSpent;//
 	Name = NewName;
 	
 	hours.SpanIncluding("0123456789");
@@ -152,7 +167,8 @@ CString CTask::TimeUpdate()
 	
 	int difference = (int)difftime(now, t_StartTime);
 	
-	return(StringTimeIncrease(difference));
+	s_TimeSpent = StringTimeIncrease(difference);//
+	return(s_TimeSpent);//
 }
 
 
@@ -182,7 +198,7 @@ CString CTask::GetName()
 
 
 
-CString CTask::GetHours()
+/*CString CTask::GetHours()
 {
 	int length = s_TimeSpent.GetLength();
 	return( s_TimeSpent.Left(length-6)); // without :00:00
@@ -198,9 +214,19 @@ CString CTask::GetMinutes()
 	CString s; //will be minutes
 	s = s_TimeSpent.Right(5); // 0:  11:00
 	return( s.Left(2)); // 11  :00
-}
+}*/
 
 int CTask::GetType()
 {
 	return(TypeOfTask);
+}
+
+
+bool CTask::IsTaskVisible()
+{ 
+	return(IsVisible);
+}
+CString CTask::GetTimeSpent()
+{
+	return(s_TimeSpent);
 }

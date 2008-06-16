@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CDlgCorrect
+LastClass=CTimeControlDoc
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "TimeControl.h"
@@ -18,16 +18,16 @@ ResourceCount=10
 Resource1=IDD_ABOUTBOX
 Resource2=IDR_MAINFRAME
 Resource3=IDD_TIMECONTROL_FORM
-Resource4=IDD_SURE
-Resource5=IDD_TIMECONTROL_FORM (English (U.S.))
+Resource4=IDD_ERROR
+Resource5=IDD_ABOUTBOX (English (U.S.))
 Class5=CAboutDlg
-Resource6=IDD_ADDING
+Resource6=IDD_TIMECONTROL_FORM (English (U.S.))
 Class6=CDlgAdding
-Resource7=IDD_ERROR
+Resource7=IDD_ADDING
 Class7=CDlgError
-Resource8=IDR_MAINFRAME (English (U.S.))
+Resource8=IDD_SURE
 Class8=CDlgSure
-Resource9=IDD_ABOUTBOX (English (U.S.))
+Resource9=IDR_MAINFRAME (English (U.S.))
 Class9=CDlgCorrect
 Resource10=IDD_CORRECT
 
@@ -42,6 +42,9 @@ Type=0
 HeaderFile=TimeControlDoc.h
 ImplementationFile=TimeControlDoc.cpp
 Filter=N
+BaseClass=CDocument
+VirtualFilter=DC
+LastObject=CTimeControlDoc
 
 [CLS:CTimeControlView]
 Type=0
@@ -50,7 +53,7 @@ ImplementationFile=TimeControlView.cpp
 Filter=D
 BaseClass=CFormView
 VirtualFilter=VWC
-LastObject=ID_correct
+LastObject=CTimeControlView
 
 
 [CLS:CMainFrame]
