@@ -45,6 +45,9 @@ BOOL CTimeControlDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
+	
+	//deleting old CObLists
+	FreeMemory();
 
 	return TRUE;
 }
@@ -63,7 +66,9 @@ void CTimeControlDoc::Serialize(CArchive& ar)
 	else
 	{
 		// TODO: add loading code here
+		FreeMemory();
 	}
+	AllTasks.Serialize(ar);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -83,3 +88,28 @@ void CTimeControlDoc::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CTimeControlDoc commands
+
+BOOL CTimeControlDoc::OnOpenDocument(LPCTSTR lpszPathName) 
+{
+	if (!CDocument::OnOpenDocument(lpszPathName))
+		return FALSE;
+	
+	// TODO: Add your specialized creation code here
+	
+
+	return TRUE;
+}
+
+void CTimeControlDoc::FreeMemory()
+{
+	CTask* NowTask; 
+	POSITION pos = AllTasks.GetHeadPosition();
+	while(pos!= NULL)
+	{
+		NowTask = (CTask*) AllTasks.GetNext(pos);
+		delete NowTask;
+
+	}
+	AllTasks.RemoveAll();
+	ActiveTasks.RemoveAll();
+}

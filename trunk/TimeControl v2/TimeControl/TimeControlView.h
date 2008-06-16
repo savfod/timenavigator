@@ -29,7 +29,7 @@ private:
 	
 	POSITION p_NowActiveProject;
 	int NowActiveProject;
-
+	bool IsColumnes;// if there are columnes, or they should be added
 // Operations
 public:
 	CTimeControlDoc* GetDocument();
@@ -40,6 +40,7 @@ private:
 	void StartTime();
 	CString Type(int int_type);
 	void FindActive();
+	void KillTime();
 
 // Overrides
 	// ClassWizard generated virtual function overrides

@@ -48,7 +48,7 @@ CTimeControlView::CTimeControlView()
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 	// TODO: add construction code here
-
+	IsColumnes = FALSE;
 }
 
 CTimeControlView::~CTimeControlView()
@@ -73,19 +73,41 @@ BOOL CTimeControlView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CTimeControlView::OnInitialUpdate()
 {
+	NowActiveProject = -1;
+	OnStopTime();
+	
 	CFormView::OnInitialUpdate();
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
 
-	NowActiveProject = -1;
+	m_list.DeleteAllItems();
+	if(!IsColumnes)
+	{
+		m_list.InsertColumn(0,"название задачи", LVCFMT_LEFT, 200);
+		m_list.InsertColumn(1,"тип задачи",LVCFMT_LEFT, 70);
+		m_list.InsertColumn(2,"затраченное время", LVCFMT_RIGHT, 121);
+	}
+	IsColumnes = TRUE;
+	CTask* NowTask; 
+	POSITION pos = GetDocument()->AllTasks.GetHeadPosition();
+	while(pos!= NULL)
+	{
+		// my actions
+		NowTask = (CTask*) GetDocument()->AllTasks.GetNext(pos);
+		//my actions with NowTask if it is visible
+		if(NowTask->IsTaskVisible())
+		{
+			int m_item = m_list.GetItemCount();
+			m_list.InsertItem(m_item, NowTask->GetName());
+			m_list.SetItemText(m_item, 1, Type(NowTask->GetType()));
+			m_list.SetItemText(m_item, 2, NowTask->GetTimeSpent());
+			
+			TRACE("%d",GetDocument()->ActiveTasks.GetCount());
 
-	
-	m_list.InsertColumn(0,"название задачи", LVCFMT_LEFT, 200);
-	m_list.InsertColumn(1,"тип задачи",LVCFMT_LEFT, 70);
-	m_list.InsertColumn(2,"затраченное время", LVCFMT_RIGHT, 121);
-	
-	
+			GetDocument()->ActiveTasks.AddTail(NowTask);
+		}
 
+	}
 }
 //my functions
 CString CTimeControlView::Type(int int_Type)
@@ -130,9 +152,8 @@ void CTimeControlView::StartTime()
 	
 	KillTimer(1); //kill old timer
 	SetTimer(1,500,NULL);//and start new
-
+	GetDocument()->SetModifiedFlag();
 }
-
 
 
 
@@ -253,6 +274,7 @@ void CTimeControlView::OnTimer(UINT nIDEvent)
 		
 		m_list.SetItemText(NowActiveProject, 2, ActiveTask->TimeUpdate());
 		m_list.SetItemState( NowActiveProject , LVIS_FOCUSED | LVIS_SELECTED , LVIS_FOCUSED | LVIS_SELECTED );
+		GetDocument()->SetModifiedFlag();
 	}
 
 	/*if(nIDEvent == 2)
@@ -309,7 +331,7 @@ void CTimeControlView::OnDelete()
 
 	POSITION pos = GetDocument()->AllTasks.Find(ActiveTask);
 	GetDocument()->AllTasks.RemoveAt(pos);
-
+	GetDocument()->SetModifiedFlag();
 
 }
 
@@ -342,8 +364,10 @@ void CTimeControlView::Oncorrect()
 
 	CString NowTime = ActiveTask->Correct(dlg.m_Name, (bool)dlg.m_IsNegative, dlg.m_Hours, dlg.m_Minutes, dlg.m_Seconds);
 	m_list.SetItemText(NowActiveProject, 2,NowTime); 
-	
-	NowActiveProject = -1;
+	GetDocument()->SetModifiedFlag();
+	//NowActiveProject = -1;//лишнее
 	StartTime();
 }
+
+
 

@@ -16,7 +16,8 @@ protected: // create from serialization only
 	CTimeControlDoc();
 	DECLARE_DYNCREATE(CTimeControlDoc)
 
-// Attributes
+
+	// Attributes
 public:
 
 	CObList AllTasks;
@@ -24,13 +25,16 @@ public:
 
 // Operations
 public:
-
+	
+private:
+	void FreeMemory();// free memory from all tasks, remove from lists
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CTimeControlDoc)
 	public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 	//}}AFX_VIRTUAL
 
 // Implementation

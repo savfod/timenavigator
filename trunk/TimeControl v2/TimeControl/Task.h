@@ -11,7 +11,12 @@
 
 class CTask : public CObject 
 {
+
+	DECLARE_SERIAL(CTask)
+
+
 public:
+	CTask();
 	CTask(int Type, CString GetName);
 	virtual ~CTask();
 
@@ -25,10 +30,12 @@ public:
 	void Serialize(CArchive& ar);
 	void Archive();
 	void UnArchive();
-	CString GetHours();
+	/*CString GetHours();
 	CString GetMinutes();
-	CString GetSeconds();
+	CString GetSeconds();*/
+	CString GetTimeSpent();
 	int GetType();
+	bool IsTaskVisible();
 private:
 
 	
@@ -39,9 +46,11 @@ private:
 	int TypeOfTask; // 0 - work, 1 - rest
 
 	//now parametres
-	bool m_IsActive;
+	
+	//bool m_IsActive; - doesn't  use
+	
 	time_t t_StartTime; //when became active
-	//CString s_StartTime; //how many time have been spent on project, when it became active
+	CString s_StartTime; //how many time have been spent on project, when it became active
 	
 	//int m_index; // now index (if is visible); 
 
