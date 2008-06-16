@@ -59,6 +59,124 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ADDING DIALOG DISCARDABLE  0, 0, 166, 99
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Добавить задачу"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,21,64,14,ES_AUTOHSCROLL
+    LTEXT           "Введите тип задачи",IDC_STATIC,85,7,74,8
+    DEFPUSHBUTTON   "OK",IDOK,7,78,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,109,78,50,14
+    LTEXT           "Введите название",IDC_STATIC,7,7,63,8
+    CONTROL         "Работа",IDC_TYPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
+                    85,19,40,10
+    CONTROL         "Отдых",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,85,29,37,
+                    10
+END
+
+IDD_ERROR DIALOG DISCARDABLE  0, 0, 112, 64
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ERROR"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,31,43,50,14
+    LTEXT           "error",IDC_STATIC,7,7,15,8
+END
+
+IDD_SURE DIALOG DISCARDABLE  0, 0, 134, 64
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Удаление задачи"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Да",IDOK,7,43,50,14
+    PUSHBUTTON      "Нет",IDCANCEL,77,43,50,14
+    LTEXT           "Вы уверены, что хотите удалить эту задачу?",IDC_STATIC,
+                    7,7,84,29
+END
+
+IDD_CORRECT DIALOG DISCARDABLE  0, 0, 179, 113
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Поправка"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,92,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,122,92,50,14
+    LTEXT           "Название",IDC_STATIC,7,7,34,8
+    EDITTEXT        IDC_EDIT1,7,16,59,14,ES_AUTOHSCROLL
+    CONTROL         "Работа",IDC_TYPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
+                    128,15,44,8
+    CONTROL         "Отдых",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,128,24,44,
+                    8
+    LTEXT           "Тип проекта",IDC_STATIC,120,7,52,8
+    CONTROL         "+",IDC_PLUS,"Button",BS_AUTORADIOBUTTON | WS_GROUP,7,69,
+                    22,8
+    CONTROL         "-",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,7,78,15,8
+    EDITTEXT        IDC_EDIT2,55,71,19,14,ES_AUTOHSCROLL
+    LTEXT           "Часы",IDC_STATIC,33,73,20,8
+    LTEXT           "Минуты",IDC_STATIC,76,73,27,8
+    LTEXT           "Секунды",IDC_STATIC,122,73,29,8
+    EDITTEXT        IDC_EDIT3,103,71,18,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,153,71,16,14,ES_AUTOHSCROLL
+    LTEXT           "Поправка времени",IDC_STATIC,7,56,66,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ADDING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 159
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 92
+    END
+
+    IDD_ERROR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 105
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 57
+    END
+
+    IDD_SURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 127
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 57
+    END
+
+    IDD_CORRECT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 172
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 106
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSOR1             CURSOR  DISCARDABLE     "res\\cursor1.cur"
 #endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -132,6 +250,14 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
+    POPUP "&TimeControl"
+    BEGIN
+        MENUITEM "&Stop time \tEscape",         ID_Stop_Time
+        MENUITEM SEPARATOR
+        MENUITEM "&Add task\tCtrl+A",           ID_add_task
+        MENUITEM "Delete Task\tDelete",         ID_Delete
+        MENUITEM "Correct time\tCtrl+C",        ID_correct
+    END
     POPUP "&Edit"
     BEGIN
         MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
@@ -159,20 +285,24 @@ END
 
 IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
 BEGIN
-    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
-    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
-    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
-    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
-    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
-    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
-    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
-    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
-    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
-    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
-    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
-    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
-    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
-    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+    "A",            ID_add_task,            VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_correct,             VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_Delete,              VIRTKEY, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_ESCAPE,      ID_Stop_Time,           VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -197,8 +327,8 @@ IDD_TIMECONTROL_FORM DIALOG DISCARDABLE  0, 0, 388, 321
 STYLE WS_CHILD
 FONT 8, "MS Sans Serif"
 BEGIN
-    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | WS_BORDER | 
-                    WS_TABSTOP,7,31,240,151
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,31,263,151
 END
 
 
@@ -209,8 +339,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 2,0,0,1
+ PRODUCTVERSION 2,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -267,7 +397,7 @@ BEGIN
     IDD_TIMECONTROL_FORM, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 381
+        RIGHTMARGIN, 380
         TOPMARGIN, 7
         BOTTOMMARGIN, 314
     END
@@ -392,6 +522,14 @@ END
 STRINGTABLE DISCARDABLE 
 BEGIN
     AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_add_task             "Add new task\nAdd task"
+    ID_Delete               "Deletes the task\n Delete task"
+    ID_correct              "Corrects the time\nCorrect time"
+    ID_Stop_Time            "Stops the time\nStop time"
 END
 
 #endif    // English (U.S.) resources

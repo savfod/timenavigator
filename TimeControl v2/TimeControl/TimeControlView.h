@@ -18,22 +18,28 @@ protected: // create from serialization only
 
 public:
 	//{{AFX_DATA(CTimeControlView)
-	enum{ IDD = IDD_TIMECONTROL_FORM };
-		// NOTE: the ClassWizard will add data members here
+	enum { IDD = IDD_TIMECONTROL_FORM };
+	CListCtrl	m_list;
 	//}}AFX_DATA
 
 // Attributes
 public:
-	CTimeControlDoc* GetDocument();
+
+private:
+	
+	POSITION p_NowActiveProject;
+	int NowActiveProject;
 
 // Operations
 public:
+	CTimeControlDoc* GetDocument();
 
 
 
 private:
 	void StartTime();
-
+	CString Type(int int_type);
+	void FindActive();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -63,6 +69,11 @@ protected:
 protected:
 	//{{AFX_MSG(CTimeControlView)
 	afx_msg void OnClickList1(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void Onaddtask();
+	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnStopTime();
+	afx_msg void OnDelete();
+	afx_msg void Oncorrect();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
