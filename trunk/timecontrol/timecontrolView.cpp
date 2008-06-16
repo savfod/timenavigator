@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CTimecontrolView, CFormView)
 	ON_COMMAND(ID_FILE_NEW, OnFileNew)
 	ON_COMMAND(ID_MENUITEM32785, OnMenuitem32785)
 	ON_WM_CONTEXTMENU()
+	ON_WM_CREATE()
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CFormView::OnFilePrint)
@@ -84,8 +85,20 @@ void CTimecontrolView::OnInitialUpdate()
 	ResizeParentToFit();
 	m_list.InsertColumn(0,"название проекта", LVCFMT_LEFT, 300);
 	m_list.InsertColumn(1,"затраченное время", LVCFMT_RIGHT, 130);
+	
+}
+
+int CTimecontrolView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+{
+	
+	if (CFormView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+	
+	// TODO: Add your specialized creation code here
 	CTimecontrolView::wasSaved = FALSE;
 	strcpy(CTimecontrolView::m_StandartSavePlace,"TimeControl.tc");
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -483,9 +496,10 @@ void CTimecontrolView::OnFileNew()
 	if(Result != IDOK)
 		return;
 
+	KillTimer(2);
 	m_list.DeleteAllItems();
 	
-
+	wasSaved = FALSE;
 
 }
 
@@ -526,3 +540,5 @@ void CTimecontrolView::OnContextMenu(CWnd* pWnd, CPoint point)
 	menu.LoadMenu(IDR_ContextMenu);
 	menu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
 }
+
+
