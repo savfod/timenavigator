@@ -230,3 +230,8 @@ CString CTask::GetTimeSpent()
 {
 	return(s_TimeSpent);
 }
+
+void CTask::ChangeVisible()
+{
+	IsVisible = !IsVisible;
+}

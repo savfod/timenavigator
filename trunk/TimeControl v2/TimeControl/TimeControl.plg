@@ -6,13 +6,13 @@
 --------------------Configuration: TimeControl - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSPE272.tmp" with contents
+Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSP5B87.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/TimeControl.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "D:\my\visual\практика 2008\TimeControl v2\TimeControl\TimeControlView.cpp"
 ]
-Creating command line "cl.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSPE272.tmp" 
-Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSPE273.tmp" with contents
+Creating command line "cl.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSP5B87.tmp" 
+Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSP5B88.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/TimeControl.pdb" /debug /machine:I386 /out:"Debug/TimeControl.exe" /pdbtype:sept 
 ".\Debug\DlgAdding.obj"
@@ -26,14 +26,15 @@ Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSPE273.tmp" with co
 ".\Debug\TimeControlDoc.obj"
 ".\Debug\TimeControlView.obj"
 ".\Debug\TimeControl.res"
+".\Debug\DlgAllTasks.obj"
 ]
-Creating command line "link.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSPE273.tmp"
+Creating command line "link.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSP5B88.tmp"
 <h3>Output Window</h3>
 Compiling...
 TimeControlView.cpp
-D:\my\visual\практика 2008\TimeControl v2\TimeControl\TimeControlView.cpp(365) : warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+D:\my\visual\практика 2008\TimeControl v2\TimeControl\TimeControlView.cpp(377) : warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
 Linking...
-Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSPE689.tmp" with contents
+Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSP5C54.tmp" with contents
 [
 /nologo /o"Debug/TimeControl.bsc" 
 ".\Debug\StdAfx.sbr"
@@ -45,8 +46,9 @@ Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSPE689.tmp" with co
 ".\Debug\Task.sbr"
 ".\Debug\TimeControl.sbr"
 ".\Debug\TimeControlDoc.sbr"
-".\Debug\TimeControlView.sbr"]
-Creating command line "bscmake.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSPE689.tmp"
+".\Debug\TimeControlView.sbr"
+".\Debug\DlgAllTasks.sbr"]
+Creating command line "bscmake.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSP5C54.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 

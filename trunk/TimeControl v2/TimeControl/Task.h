@@ -36,6 +36,7 @@ public:
 	CString GetTimeSpent();
 	int GetType();
 	bool IsTaskVisible();
+	void ChangeVisible();
 private:
 
 	

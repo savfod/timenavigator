@@ -8,6 +8,7 @@
 #include "DlgError.h"
 #include "DlgSure.h"
 #include "DlgCorrect.h"
+#include "DlgAllTasks.h"
 
 #include "TimeControlDoc.h"
 #include "TimeControlView.h"
@@ -31,6 +32,9 @@ BEGIN_MESSAGE_MAP(CTimeControlView, CFormView)
 	ON_COMMAND(ID_Stop_Time, OnStopTime)
 	ON_COMMAND(ID_Delete, OnDelete)
 	ON_COMMAND(ID_correct, Oncorrect)
+	ON_COMMAND(ID_ARCHIVE, OnArchive)
+	ON_WM_CONTEXTMENU()
+	ON_COMMAND(ID_SHOW, OnShowAll)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CFormView::OnFilePrint)
@@ -81,6 +85,7 @@ void CTimeControlView::OnInitialUpdate()
 	ResizeParentToFit();
 
 	m_list.DeleteAllItems();
+	GetDocument()->ActiveTasks.RemoveAll();
 	if(!IsColumnes)
 	{
 		m_list.InsertColumn(0,"название задачи", LVCFMT_LEFT, 200);
@@ -110,6 +115,12 @@ void CTimeControlView::OnInitialUpdate()
 	}
 }
 //my functions
+CString CTimeControlView::Archive(bool IsInArchive)
+{
+	if(IsInArchive)
+		return("Задача скрыта");
+	return("Задача активна");
+}
 CString CTimeControlView::Type(int int_Type)
 {
 
@@ -224,6 +235,7 @@ void CTimeControlView::Onaddtask()
 	// TODO: Add your command handler code here
 	CDlgAdding dlg;
 	dlg.m_Type = 0;
+	OnStopTime();
 	int Result = dlg.DoModal();
 	
 
@@ -332,7 +344,7 @@ void CTimeControlView::OnDelete()
 	POSITION pos = GetDocument()->AllTasks.Find(ActiveTask);
 	GetDocument()->AllTasks.RemoveAt(pos);
 	GetDocument()->SetModifiedFlag();
-
+	NowActiveProject = -1; // no active projects
 }
 
 void CTimeControlView::Oncorrect() 
@@ -365,9 +377,52 @@ void CTimeControlView::Oncorrect()
 	CString NowTime = ActiveTask->Correct(dlg.m_Name, (bool)dlg.m_IsNegative, dlg.m_Hours, dlg.m_Minutes, dlg.m_Seconds);
 	m_list.SetItemText(NowActiveProject, 2,NowTime); 
 	GetDocument()->SetModifiedFlag();
-	//NowActiveProject = -1;//лишнее
+	NowActiveProject = -1;
 	StartTime();
 }
 
 
 
+
+void CTimeControlView::OnArchive() 
+{
+	// TODO: Add your command handler code here
+	OnStopTime();
+	FindActive();
+
+	if(NowActiveProject==-1)
+		return;
+
+	CTask* task;
+	task = (CTask*) GetDocument()->ActiveTasks.GetAt(p_NowActiveProject);
+	task->Archive();
+	GetDocument()->ActiveTasks.RemoveAt(p_NowActiveProject);
+	m_list.DeleteItem(NowActiveProject);
+	
+	NowActiveProject = -1;
+}
+
+void CTimeControlView::OnContextMenu(CWnd* pWnd, CPoint point) 
+{
+	// TODO: Add your message handler code here
+	CMenu menu;
+	menu.LoadMenu(IDR_CONTEXTMENU);
+	menu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+
+}
+
+void CTimeControlView::OnShowAll() 
+{
+	// TODO: Add your command handler code here
+	OnStopTime();
+	
+	CDlgAllTasks dlg;
+	//giving list of objects from document to dlg
+	dlg.m_ObList = &GetDocument()->AllTasks;
+
+	dlg.DoModal();
+	
+	OnInitialUpdate();
+
+
+}

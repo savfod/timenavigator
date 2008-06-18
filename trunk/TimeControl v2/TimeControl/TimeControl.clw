@@ -2,34 +2,37 @@
 
 [General Info]
 Version=1
-LastClass=CTimeControlDoc
+LastClass=CDlgAllTasks
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "TimeControl.h"
 LastPage=0
 
-ClassCount=9
+ClassCount=10
 Class1=CTimeControlApp
 Class2=CTimeControlDoc
 Class3=CTimeControlView
 Class4=CMainFrame
 
-ResourceCount=10
+ResourceCount=12
 Resource1=IDD_ABOUTBOX
 Resource2=IDR_MAINFRAME
 Resource3=IDD_TIMECONTROL_FORM
-Resource4=IDD_ERROR
-Resource5=IDD_ABOUTBOX (English (U.S.))
+Resource4=IDD_SURE
+Resource5=IDD_ADDING
 Class5=CAboutDlg
 Resource6=IDD_TIMECONTROL_FORM (English (U.S.))
 Class6=CDlgAdding
-Resource7=IDD_ADDING
+Resource7=IDD_CORRECT
 Class7=CDlgError
-Resource8=IDD_SURE
+Resource8=IDD_ABOUTBOX (English (U.S.))
 Class8=CDlgSure
-Resource9=IDR_MAINFRAME (English (U.S.))
+Resource9=IDD_ERROR
 Class9=CDlgCorrect
-Resource10=IDD_CORRECT
+Resource10=IDR_CONTEXTMENU
+Resource11=IDD_ALL
+Class10=CDlgAllTasks
+Resource12=IDR_MAINFRAME (English (U.S.))
 
 [CLS:CTimeControlApp]
 Type=0
@@ -53,7 +56,7 @@ ImplementationFile=TimeControlView.cpp
 Filter=D
 BaseClass=CFormView
 VirtualFilter=VWC
-LastObject=CTimeControlView
+LastObject=ID_SHOW
 
 
 [CLS:CMainFrame]
@@ -136,12 +139,13 @@ Class=?
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_SAVE
-Command4=ID_EDIT_CUT
-Command5=ID_EDIT_COPY
-Command6=ID_EDIT_PASTE
-Command7=ID_FILE_PRINT
-Command8=ID_APP_ABOUT
-CommandCount=8
+Command4=ID_FILE_PRINT
+Command5=ID_Stop_Time
+Command6=ID_add_task
+Command7=ID_Delete
+Command8=ID_correct
+Command9=ID_APP_ABOUT
+CommandCount=9
 
 [MNU:IDR_MAINFRAME (English (U.S.))]
 Type=1
@@ -155,18 +159,20 @@ Command6=ID_FILE_PRINT_PREVIEW
 Command7=ID_FILE_PRINT_SETUP
 Command8=ID_FILE_MRU_FILE1
 Command9=ID_APP_EXIT
-Command10=ID_Stop_Time
-Command11=ID_add_task
-Command12=ID_Delete
-Command13=ID_correct
-Command14=ID_EDIT_UNDO
-Command15=ID_EDIT_CUT
-Command16=ID_EDIT_COPY
-Command17=ID_EDIT_PASTE
-Command18=ID_VIEW_TOOLBAR
-Command19=ID_VIEW_STATUS_BAR
-Command20=ID_APP_ABOUT
-CommandCount=20
+Command10=ID_EDIT_UNDO
+Command11=ID_EDIT_CUT
+Command12=ID_EDIT_COPY
+Command13=ID_EDIT_PASTE
+Command14=ID_VIEW_TOOLBAR
+Command15=ID_VIEW_STATUS_BAR
+Command16=ID_Stop_Time
+Command17=ID_add_task
+Command18=ID_Delete
+Command19=ID_correct
+Command20=ID_ARCHIVE
+Command21=ID_SHOW
+Command22=ID_APP_ABOUT
+CommandCount=22
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1
@@ -174,22 +180,23 @@ Class=CMainFrame
 Command1=ID_add_task
 Command2=ID_correct
 Command3=ID_EDIT_COPY
-Command4=ID_FILE_NEW
-Command5=ID_FILE_OPEN
-Command6=ID_FILE_PRINT
-Command7=ID_FILE_SAVE
-Command8=ID_EDIT_PASTE
-Command9=ID_EDIT_UNDO
-Command10=ID_Delete
-Command11=ID_EDIT_CUT
-Command12=ID_Stop_Time
-Command13=ID_NEXT_PANE
-Command14=ID_PREV_PANE
-Command15=ID_EDIT_COPY
-Command16=ID_EDIT_PASTE
-Command17=ID_EDIT_CUT
-Command18=ID_EDIT_UNDO
-CommandCount=18
+Command4=ID_ARCHIVE
+Command5=ID_FILE_NEW
+Command6=ID_FILE_OPEN
+Command7=ID_FILE_PRINT
+Command8=ID_FILE_SAVE
+Command9=ID_EDIT_PASTE
+Command10=ID_EDIT_UNDO
+Command11=ID_Delete
+Command12=ID_EDIT_CUT
+Command13=ID_Stop_Time
+Command14=ID_NEXT_PANE
+Command15=ID_PREV_PANE
+Command16=ID_EDIT_COPY
+Command17=ID_EDIT_PASTE
+Command18=ID_EDIT_CUT
+Command19=ID_EDIT_UNDO
+CommandCount=19
 
 [DLG:IDD_ABOUTBOX (English (U.S.))]
 Type=1
@@ -280,4 +287,30 @@ BaseClass=CDialog
 Filter=D
 LastObject=CDlgCorrect
 VirtualFilter=dWC
+
+[MNU:IDR_CONTEXTMENU]
+Type=1
+Class=?
+Command1=ID_Delete
+Command2=ID_correct
+Command3=ID_ARCHIVE
+CommandCount=3
+
+[CLS:CDlgAllTasks]
+Type=0
+HeaderFile=DlgAllTasks.h
+ImplementationFile=DlgAllTasks.cpp
+BaseClass=CDialog
+Filter=D
+VirtualFilter=dWC
+LastObject=IDOK
+
+[DLG:IDD_ALL]
+Type=1
+Class=CDlgAllTasks
+ControlCount=4
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_LIST1,SysListView32,1350631429
+Control4=IDC_STATIC,static,1342308352
 
