@@ -94,6 +94,10 @@ SOURCE=.\DlgAdding.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\DlgAllTasks.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\DlgCorrect.cpp
 # End Source File
 # Begin Source File
@@ -140,6 +144,10 @@ SOURCE=.\TimeControlView.cpp
 # Begin Source File
 
 SOURCE=.\DlgAdding.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DlgAllTasks.h
 # End Source File
 # Begin Source File
 

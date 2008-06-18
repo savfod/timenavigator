@@ -11,6 +11,8 @@
 #define IDD_SURE                        133
 #define IDD_CORRECT                     134
 #define IDC_CURSOR1                     135
+#define IDR_CONTEXTMENU                 136
+#define IDD_ALL                         138
 #define IDC_LIST1                       1000
 #define IDC_EDIT1                       1001
 #define IDC_TYPE                        1002
@@ -24,15 +26,17 @@
 #define ID_Delete                       32772
 #define ID_correct                      32773
 #define ID_Stop_Time                    32774
+#define ID_ARCHIVE                      32777
+#define ID_SHOW                         32778
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        136
-#define _APS_NEXT_COMMAND_VALUE         32775
-#define _APS_NEXT_CONTROL_VALUE         1011
+#define _APS_NEXT_RESOURCE_VALUE        139
+#define _APS_NEXT_COMMAND_VALUE         32779
+#define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

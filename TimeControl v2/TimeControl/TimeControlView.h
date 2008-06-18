@@ -33,12 +33,13 @@ private:
 // Operations
 public:
 	CTimeControlDoc* GetDocument();
-
+	CString Type(int int_type);
 
 
 private:
 	void StartTime();
-	CString Type(int int_type);
+	
+	CString Archive(bool IsInArchive);
 	void FindActive();
 	void KillTime();
 
@@ -75,6 +76,9 @@ protected:
 	afx_msg void OnStopTime();
 	afx_msg void OnDelete();
 	afx_msg void Oncorrect();
+	afx_msg void OnArchive();
+	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg void OnShowAll();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
