@@ -136,8 +136,8 @@ BEGIN
     PUSHBUTTON      "Отмена",IDCANCEL,203,235,50,14
     CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,30,366,192
-    LTEXT           "Чтобы сменить активность задачи, кликните на нее.",
-                    IDC_STATIC,7,7,181,8
+    LTEXT           "Чтобы сменить статус задачи, кликните на нее.",
+                    IDC_STATIC,7,7,164,8
 END
 
 
@@ -256,12 +256,12 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
 END
 
-IDD_TIMECONTROL_FORM DIALOG DISCARDABLE  0, 0, 388, 321
+IDD_TIMECONTROL_FORM DIALOG DISCARDABLE  0, 0, 359, 225
 STYLE WS_CHILD
 FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
-                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,31,263,151
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,9,12,263,155
 END
 
 
@@ -279,14 +279,6 @@ BEGIN
         RIGHTMARGIN, 228
         TOPMARGIN, 7
         BOTTOMMARGIN, 48
-    END
-
-    IDD_TIMECONTROL_FORM, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 380
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 314
     END
 END
 #endif    // APSTUDIO_INVOKED

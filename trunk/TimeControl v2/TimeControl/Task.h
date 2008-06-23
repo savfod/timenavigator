@@ -4,6 +4,8 @@
 
 #if !defined(AFX_TASK_H__4C7D975F_C469_4D99_A42E_908D4B6C6009__INCLUDED_)
 #define AFX_TASK_H__4C7D975F_C469_4D99_A42E_908D4B6C6009__INCLUDED_
+#include <afxtempl.h>		///MFC templates
+#include "DayTimeSpent.h"
 
 #if _MSC_VER > 1000
 #pragma once
@@ -37,6 +39,11 @@ public:
 	int GetType();
 	bool IsTaskVisible();
 	void ChangeVisible();
+	void NewDay();
+	CString TestNewDay(struct tm day);
+	//all time parametres
+	CArray < CDayTimeSpent, CDayTimeSpent > ArrayTimeDay;
+
 private:
 
 	

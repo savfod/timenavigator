@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
+//typedef CArray<CRect, CRect> CRectArray;
 class CTimeControlDoc : public CDocument
 {
 protected: // create from serialization only
@@ -22,6 +22,11 @@ public:
 
 	CObList AllTasks;
 	CObList ActiveTasks;
+	int DayToday; //What is day today (0-365)
+
+	//print((
+	enum{ nLinesPerPage = 12 };
+
 
 // Operations
 public:
@@ -39,6 +44,7 @@ private:
 
 // Implementation
 public:
+//	CArray< CDayTimeSpent, CDayTimeSpent> m_lis;
 	virtual ~CTimeControlDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;

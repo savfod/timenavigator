@@ -91,6 +91,7 @@ void CTimeControlView::OnInitialUpdate()
 		m_list.InsertColumn(0,"название задачи", LVCFMT_LEFT, 200);
 		m_list.InsertColumn(1,"тип задачи",LVCFMT_LEFT, 70);
 		m_list.InsertColumn(2,"затраченное врем€", LVCFMT_RIGHT, 121);
+	//	m_list.InsertColumn(3,"в том чсле сегодн€", LVCFMT_RIGHT, 121);
 	}
 	IsColumnes = TRUE;
 	CTask* NowTask; 
@@ -166,7 +167,46 @@ void CTimeControlView::StartTime()
 	GetDocument()->SetModifiedFlag();
 }
 
+void CTimeControlView::TestDayToday()
+{
+	time_t rawtime;
+	struct tm * timeinfo;
 
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+	
+	if(GetDocument()->DayToday != timeinfo->tm_yday)
+	{
+		NewDay();
+	}
+
+}
+void CTimeControlView::NewDay()
+{
+	//start finding today day
+	time_t rawtime;
+	struct tm * timeinfo;
+
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+	// stop finding today day
+
+	GetDocument()->DayToday = timeinfo->tm_yday;
+	
+	for( int k = m_list.GetItemCount() - 1; k >= 0; k-- )
+	{	
+		//m_list.SetItemText
+	}
+
+	POSITION pos = GetDocument()->ActiveTasks.GetHeadPosition();
+	CTask* NowTask;
+	while(pos!= NULL)
+	{
+		// my actions
+		NowTask = (CTask*) GetDocument()->ActiveTasks.GetNext(pos);
+		//NowTask->
+	}
+}
 
 
 
@@ -189,9 +229,36 @@ void CTimeControlView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 	// TODO: add cleanup after printing
 }
 
-void CTimeControlView::OnPrint(CDC* pDC, CPrintInfo* /*pInfo*/)
+void CTimeControlView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 {
 	// TODO: add customized printing code here
+	int i, nStart, nEnd, nHeight;
+	CString str;
+	CPoint point(720, -1440);
+	CFont font;
+	TEXTMETRIC tm;
+	pDC->SetMapMode(MM_TWIPS);
+
+	m_nPage = pInfo->m_nCurPage;
+	nStart = (m_nPage - 1) * CTimeControlDoc::nLinesPerPage;
+	nEnd = nStart + CTimeControlDoc::nLinesPerPage;
+
+	font.CreateFont(-280, 0, 0, 0, 400, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_MODERN, "Courier New");
+	
+	CFont* pOldFont = (CFont*)(pDC->SelectObject(&font));
+	//PrintPageHeader
+	pDC->GetTextMetrics(&tm);
+	nHeight = tm.tmHeight +tm.tmExternalLeading;
+
+	for(i = nStart; i<nEnd ; i++)
+	{
+		if(i>m_list.GetItemCount())
+			break;
+		str = m_list.GetItemText(i-1,0) + m_list.GetItemText(i-1,1) + m_list.GetItemText(i-1,2);
+		point.y -= nHeight;
+		pDC->TextOut(point.x, point.y, str);
+	}
+	pDC->SelectObject(pOldFont);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -425,4 +492,11 @@ void CTimeControlView::OnShowAll()
 	OnInitialUpdate();
 
 
+}
+
+void CTimeControlView::OnDraw(CDC* pDC) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	
+	
 }
