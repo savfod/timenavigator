@@ -1,3 +1,4 @@
+
 // Task.cpp: implementation of the CTask class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -5,6 +6,8 @@
 #include "stdafx.h"
 #include "TimeControl.h"
 #include "Task.h"
+#include <afxtempl.h>		///MFC templates
+#include "DayTimeSpent.h"
 
 IMPLEMENT_SERIAL(CTask, CObject, 0)
 
@@ -29,8 +32,7 @@ CTask::CTask(int type,CString GetName)
 	IsVisible = TRUE; //it isn't in archieve 
 	s_TimeSpent = "0:00:00"; //time spent on task in string (1:02:01) format
 	//m_IsActive = TRUE;
-	
-	
+	ArrayTimeDay.Add(CDayTimeSpent());
 }
 
 CTask::~CTask()
@@ -48,6 +50,7 @@ void CTask::Serialize(CArchive& ar)
 	{
 		ar >> Name >> (LONG&)IsVisible >> s_TimeSpent >> (LONG&)TypeOfTask;
 	}
+	ArrayTimeDay.Serialize(ar);
 }
 
 
@@ -234,4 +237,14 @@ CString CTask::GetTimeSpent()
 void CTask::ChangeVisible()
 {
 	IsVisible = !IsVisible;
+}
+
+void CTask::NewDay()
+{
+	
+	if(ArrayTimeDay[0].seconds == 0)
+		ArrayTimeDay[0] = CDayTimeSpent();
+	else
+		ArrayTimeDay.InsertAt(0, CDayTimeSpent());
+	
 }

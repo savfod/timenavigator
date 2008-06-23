@@ -34,14 +34,20 @@ private:
 public:
 	CTimeControlDoc* GetDocument();
 	CString Type(int int_type);
-
-
+	int m_nPage;
+	
 private:
 	void StartTime();
 	
 	CString Archive(bool IsInArchive);
 	void FindActive();
 	void KillTime();
+	void TestDayToday();
+	void NewDay();
+
+	//print
+	void PrintPageHeader(CDC* pDC);
+	void PrintPageFooter(CDC* pDC);
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -55,6 +61,7 @@ private:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnPrint(CDC* pDC, CPrintInfo* pInfo);
+	virtual void OnDraw(CDC* pDC);
 	//}}AFX_VIRTUAL
 
 // Implementation

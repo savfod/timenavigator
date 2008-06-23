@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "TimeControl.h"
 #include "Task.h"
-
+#include <afxtempl.h>		
 #include "TimeControlDoc.h"
 
 #ifdef _DEBUG
@@ -62,10 +62,12 @@ void CTimeControlDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		// TODO: add storing code here
+		ar << (LONG)DayToday;
 	}
 	else
 	{
 		// TODO: add loading code here
+		ar >> (LONG&)DayToday;
 		FreeMemory();
 	}
 	AllTasks.Serialize(ar);
