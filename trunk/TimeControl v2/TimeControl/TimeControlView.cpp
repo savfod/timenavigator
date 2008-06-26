@@ -35,6 +35,8 @@ BEGIN_MESSAGE_MAP(CTimeControlView, CFormView)
 	ON_COMMAND(ID_ARCHIVE, OnArchive)
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_SHOW, OnShowAll)
+	ON_COMMAND(ID_ViewAllTime, OnViewAllTime)
+	ON_UPDATE_COMMAND_UI(ID_ViewAllTime, OnUpdateViewAllTime)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CFormView::OnFilePrint)
@@ -90,11 +92,26 @@ void CTimeControlView::OnInitialUpdate()
 	{
 		m_list.InsertColumn(0,"название задачи", LVCFMT_LEFT, 200);
 		m_list.InsertColumn(1,"тип задачи",LVCFMT_LEFT, 70);
-		m_list.InsertColumn(2,"затраченное время", LVCFMT_RIGHT, 121);
-	//	m_list.InsertColumn(3,"в том чсле сегодня", LVCFMT_RIGHT, 121);
+		if(!GetDocument()->IsAllTimeVisible)
+		{
+			m_list.InsertColumn(2,"всё затраченное время", LVCFMT_RIGHT, 0);
+			m_list.InsertColumn(3,"cегодня затраченное время", LVCFMT_RIGHT, 160);
+		}
+		else
+		{
+			m_list.InsertColumn(2,"всё затраченное время", LVCFMT_RIGHT, 160);
+			m_list.InsertColumn(3,"cегодня затраченное время", LVCFMT_RIGHT, 0);
+		}
 	}
 	IsColumnes = TRUE;
 	CTask* NowTask; 
+	//what day today?
+ 	time_t rawtime;
+	struct tm * timeinfo;
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+	GetDocument()->DayToday = timeinfo->tm_yday;
+
 	POSITION pos = GetDocument()->AllTasks.GetHeadPosition();
 	while(pos!= NULL)
 	{
@@ -103,17 +120,22 @@ void CTimeControlView::OnInitialUpdate()
 		//my actions with NowTask if it is visible
 		if(NowTask->IsTaskVisible())
 		{
+			NowTask->TestNewDay(timeinfo);
 			int m_item = m_list.GetItemCount();
 			m_list.InsertItem(m_item, NowTask->GetName());
 			m_list.SetItemText(m_item, 1, Type(NowTask->GetType()));
 			m_list.SetItemText(m_item, 2, NowTask->GetTimeSpent());
-			
+			m_list.SetItemText(m_item, 3, NowTask->GetTimeSpentToday());
+
 			TRACE("%d",GetDocument()->ActiveTasks.GetCount());
 
 			GetDocument()->ActiveTasks.AddTail(NowTask);
 		}
 
 	}
+
+	KillTimer(2);
+	SetTimer(2, 60000, NULL);
 }
 //my functions
 CString CTimeControlView::Archive(bool IsInArchive)
@@ -183,6 +205,9 @@ void CTimeControlView::TestDayToday()
 }
 void CTimeControlView::NewDay()
 {
+	bool WasStopped = (NowActiveProject != -1);
+	OnStopTime();
+	
 	//start finding today day
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -195,7 +220,7 @@ void CTimeControlView::NewDay()
 	
 	for( int k = m_list.GetItemCount() - 1; k >= 0; k-- )
 	{	
-		//m_list.SetItemText
+		m_list.SetItemText(k, 3,"0:00:00");
 	}
 
 	POSITION pos = GetDocument()->ActiveTasks.GetHeadPosition();
@@ -204,8 +229,11 @@ void CTimeControlView::NewDay()
 	{
 		// my actions
 		NowTask = (CTask*) GetDocument()->ActiveTasks.GetNext(pos);
-		//NowTask->
+		NowTask->NewDay();
 	}
+	
+	if(WasStopped)
+		StartTime();
 }
 
 
@@ -216,6 +244,7 @@ void CTimeControlView::NewDay()
 BOOL CTimeControlView::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// default preparation
+	pInfo->SetMaxPage((m_list.GetItemCount()+CTimeControlDoc::nLinesPerPage-1)/CTimeControlDoc::nLinesPerPage );
 	return DoPreparePrinting(pInfo);
 }
 
@@ -243,10 +272,10 @@ void CTimeControlView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	nStart = (m_nPage - 1) * CTimeControlDoc::nLinesPerPage;
 	nEnd = nStart + CTimeControlDoc::nLinesPerPage;
 
-	font.CreateFont(-280, 0, 0, 0, 400, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_MODERN, "Courier New");
+	//font.CreateFont(-280, 0, 0, 0, 400, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_MODERN, "Arial");
 	
-	CFont* pOldFont = (CFont*)(pDC->SelectObject(&font));
-	//PrintPageHeader
+	//CFont* pOldFont = (CFont*)(pDC->SelectObject(&font));
+	PrintPageHeader(pDC);
 	pDC->GetTextMetrics(&tm);
 	nHeight = tm.tmHeight +tm.tmExternalLeading;
 
@@ -254,13 +283,39 @@ void CTimeControlView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	{
 		if(i>m_list.GetItemCount())
 			break;
-		str = m_list.GetItemText(i-1,0) + m_list.GetItemText(i-1,1) + m_list.GetItemText(i-1,2);
+		str.Format(_T("%-40s%-15s%15s"), m_list.GetItemText(i,0), m_list.GetItemText(i,1), m_list.GetItemText(i,2));
 		point.y -= nHeight;
 		pDC->TextOut(point.x, point.y, str);
 	}
-	pDC->SelectObject(pOldFont);
+	//pDC->SelectObject(pOldFont);
+	PrintPageFooter(pDC);
 }
 
+
+
+void CTimeControlView::PrintPageHeader(CDC *pDC)
+{
+	CString str;
+	
+	CPoint point(0,0);
+	pDC->TextOut(point.x, point.y, "Отчёт по заданиям");
+	point+= CSize(720,-720);
+	str.Format(_T("%-40.40s%-15.15s%15.15s"), "название проекта", "тип проекта", "время(всего)");
+	pDC->TextOut(point.x, point.y, str);
+}
+
+void CTimeControlView::PrintPageFooter(CDC *pDC)
+{
+	CString str;
+
+	CPoint point(100, -14400);
+	str.Format("Document %s", (LPCSTR) GetDocument()->GetTitle());
+	pDC->TextOut(point.x, point.y, str);
+	str.Format("Page %d", m_nPage);
+	CSize size = pDC->GetTextExtent(str);
+	point.x += 11000 - size.cx;
+	pDC->TextOut(point.x, point.y, str);
+}
 /////////////////////////////////////////////////////////////////////////////
 // CTimeControlView diagnostics
 
@@ -296,7 +351,6 @@ void CTimeControlView::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 
 
-
 void CTimeControlView::Onaddtask() 
 {
 	// TODO: Add your command handler code here
@@ -317,8 +371,14 @@ void CTimeControlView::Onaddtask()
 	{
 		CDlgError Error;
 		Error.DoModal();
-		return;
+		Result = dlg.DoModal();
+		if(Result != IDOK)
+			return;
+		dlg.m_Name.TrimLeft(_T(" "));
+		if(!strlen(dlg.m_Name))
+			return;
 	}
+	dlg.m_Name.TrimRight(_T(" "));
 
 
 	//Taking information , new object
@@ -332,6 +392,7 @@ void CTimeControlView::Onaddtask()
 	int l_item = m_list.InsertItem(m_list.GetItemCount(), dlg.m_Name);
 	m_list.SetItemText(l_item, 1, Type(dlg.m_Type));
 	m_list.SetItemText(l_item, 2, "0:00:00");
+	m_list.SetItemText(l_item, 3, "0:00:00");
 	m_list.SetItemState(l_item,  LVIS_FOCUSED | LVIS_SELECTED , LVIS_FOCUSED | LVIS_SELECTED);
 	StartTime();
 
@@ -352,14 +413,16 @@ void CTimeControlView::OnTimer(UINT nIDEvent)
 			
 		
 		m_list.SetItemText(NowActiveProject, 2, ActiveTask->TimeUpdate());
+		m_list.SetItemText(NowActiveProject, 3, ActiveTask->GetTimeSpentToday());
 		m_list.SetItemState( NowActiveProject , LVIS_FOCUSED | LVIS_SELECTED , LVIS_FOCUSED | LVIS_SELECTED );
 		GetDocument()->SetModifiedFlag();
 	}
 
-	/*if(nIDEvent == 2)
+	if(nIDEvent == 2)
 	{
-		CTimecontrolView::OnFileSave();
-	}*/
+		TestDayToday();
+		
+	}
 
 	CFormView::OnTimer(nIDEvent);
 
@@ -440,9 +503,28 @@ void CTimeControlView::Oncorrect()
 	
 	if(Result!=IDOK)
 		return;
+	
+	//bad case - no name
+	dlg.m_Name.TrimLeft(_T(" "));
+	if(!strlen(dlg.m_Name))
+	{
+		CDlgError Error;
+		Error.DoModal();
+		Result = dlg.DoModal();
+		if(Result!=IDOK)
+			return;
+		dlg.m_Name.TrimLeft(_T(" "));
+		if(!strlen(dlg.m_Name))
+			return;
+		
+	}
+	dlg.m_Name.TrimRight(_T(" "));
 
-	CString NowTime = ActiveTask->Correct(dlg.m_Name, (bool)dlg.m_IsNegative, dlg.m_Hours, dlg.m_Minutes, dlg.m_Seconds);
+
+	CString NowTime = ActiveTask->Correct(dlg.m_Name, dlg.m_IsNegative, dlg.m_NotToday, dlg.m_Hours, dlg.m_Minutes, dlg.m_Seconds);
 	m_list.SetItemText(NowActiveProject, 2,NowTime); 
+	m_list.SetItemText(NowActiveProject, 3,ActiveTask->GetTimeSpentToday());
+	m_list.SetItemText(NowActiveProject, 0,dlg.m_Name);
 	GetDocument()->SetModifiedFlag();
 	NowActiveProject = -1;
 	StartTime();
@@ -466,6 +548,7 @@ void CTimeControlView::OnArchive()
 	GetDocument()->ActiveTasks.RemoveAt(p_NowActiveProject);
 	m_list.DeleteItem(NowActiveProject);
 	
+	GetDocument()->SetModifiedFlag();
 	NowActiveProject = -1;
 }
 
@@ -499,4 +582,27 @@ void CTimeControlView::OnDraw(CDC* pDC)
 	// TODO: Add your specialized code here and/or call the base class
 	
 	
+}
+
+void CTimeControlView::OnViewAllTime() 
+{
+	// TODO: Add your command handler code here
+	GetDocument()->IsAllTimeVisible = !GetDocument()->IsAllTimeVisible;
+	if(GetDocument()->IsAllTimeVisible)
+	{
+		m_list.SetColumnWidth(2, 160);
+		m_list.SetColumnWidth(3, 0);
+	}
+	else
+	{
+		m_list.SetColumnWidth(2, 0);
+		m_list.SetColumnWidth(3, 160);
+	}
+}
+
+void CTimeControlView::OnUpdateViewAllTime(CCmdUI* pCmdUI) 
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetCheck(GetDocument()->IsAllTimeVisible);
+	pCmdUI->ContinueRouting();
 }

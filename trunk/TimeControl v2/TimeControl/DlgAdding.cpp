@@ -30,6 +30,7 @@ void CDlgAdding::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDlgAdding)
 	DDX_Text(pDX, IDC_EDIT1, m_Name);
+	DDV_MaxChars(pDX, m_Name, 30);
 	DDX_Radio(pDX, IDC_TYPE, m_Type);
 	//}}AFX_DATA_MAP
 }

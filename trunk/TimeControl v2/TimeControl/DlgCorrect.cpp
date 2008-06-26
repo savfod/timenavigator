@@ -25,6 +25,7 @@ CDlgCorrect::CDlgCorrect(CWnd* pParent /*=NULL*/)
 	m_Seconds = _T("");
 	m_Type = -1;
 	m_IsNegative = -1;
+	m_NotToday = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -34,6 +35,7 @@ void CDlgCorrect::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDlgCorrect)
 	DDX_Text(pDX, IDC_EDIT1, m_Name);
+	DDV_MaxChars(pDX, m_Name, 30);
 	DDX_Text(pDX, IDC_EDIT2, m_Hours);
 	DDV_MaxChars(pDX, m_Hours, 4);
 	DDX_Text(pDX, IDC_EDIT3, m_Minutes);
@@ -42,6 +44,7 @@ void CDlgCorrect::DoDataExchange(CDataExchange* pDX)
 	DDV_MaxChars(pDX, m_Seconds, 2);
 	DDX_Radio(pDX, IDC_TYPE, m_Type);
 	DDX_Radio(pDX, IDC_PLUS, m_IsNegative);
+	DDX_Check(pDX, IDC_TODAY, m_NotToday);
 	//}}AFX_DATA_MAP
 }
 

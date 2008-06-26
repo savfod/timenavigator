@@ -86,6 +86,8 @@ protected:
 	afx_msg void OnArchive();
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	afx_msg void OnShowAll();
+	afx_msg void OnViewAllTime();
+	afx_msg void OnUpdateViewAllTime(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
