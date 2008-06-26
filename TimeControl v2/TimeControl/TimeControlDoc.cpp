@@ -48,6 +48,8 @@ BOOL CTimeControlDoc::OnNewDocument()
 	
 	//deleting old CObLists
 	FreeMemory();
+	//AllTime column
+	IsAllTimeVisible = FALSE;
 
 	return TRUE;
 }
@@ -62,12 +64,12 @@ void CTimeControlDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		// TODO: add storing code here
-		ar << (LONG)DayToday;
+		ar << (LONG)DayToday << (LONG)IsAllTimeVisible;
 	}
 	else
 	{
 		// TODO: add loading code here
-		ar >> (LONG&)DayToday;
+		ar >> (LONG&)DayToday >> (LONG&)IsAllTimeVisible;
 		FreeMemory();
 	}
 	AllTasks.Serialize(ar);

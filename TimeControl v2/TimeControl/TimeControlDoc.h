@@ -19,13 +19,13 @@ protected: // create from serialization only
 
 	// Attributes
 public:
-
+	bool IsAllTimeVisible;
 	CObList AllTasks;
 	CObList ActiveTasks;
 	int DayToday; //What is day today (0-365)
 
 	//print((
-	enum{ nLinesPerPage = 12 };
+	enum{ nLinesPerPage = 50 };
 
 
 // Operations

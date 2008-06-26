@@ -25,6 +25,7 @@ public:
 	CString	m_Seconds;
 	int		m_Type;
 	int		m_IsNegative;
+	BOOL	m_NotToday;
 	//}}AFX_DATA
 
 

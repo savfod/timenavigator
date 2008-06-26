@@ -22,12 +22,14 @@
 #define IDC_EDIT2                       1008
 #define IDC_EDIT3                       1009
 #define IDC_EDIT4                       1010
+#define IDC_TODAY                       1014
 #define ID_add_task                     32771
 #define ID_Delete                       32772
 #define ID_correct                      32773
 #define ID_Stop_Time                    32774
 #define ID_ARCHIVE                      32777
 #define ID_SHOW                         32778
+#define ID_ViewAllTime                  32779
 
 // Next default values for new objects
 // 
@@ -35,8 +37,8 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        139
-#define _APS_NEXT_COMMAND_VALUE         32779
-#define _APS_NEXT_CONTROL_VALUE         1012
+#define _APS_NEXT_COMMAND_VALUE         32780
+#define _APS_NEXT_CONTROL_VALUE         1015
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

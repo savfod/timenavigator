@@ -24,7 +24,7 @@ public:
 
 
 
-	CString Correct(CString NewName, bool IsNegative, CString hours, CString minutes, CString seconds);
+	CString Correct(CString NewName, int IsNegative, bool NotToday, CString hours, CString minutes, CString seconds);
 	CString TimeUpdate();
 	void StartTime();
 	void StopTime();
@@ -40,7 +40,8 @@ public:
 	bool IsTaskVisible();
 	void ChangeVisible();
 	void NewDay();
-	CString TestNewDay(struct tm day);
+	void TestNewDay(struct tm* day);
+	CString GetTimeSpentToday();
 	//all time parametres
 	CArray < CDayTimeSpent, CDayTimeSpent > ArrayTimeDay;
 
@@ -55,10 +56,10 @@ private:
 
 	//now parametres
 	
-	//bool m_IsActive; - doesn't  use
-	
+	//bool m_IsActive; - is not in use
+	int nStartTimeToday; //how many seconds was spent today on project, when it became active
 	time_t t_StartTime; //when became active
-	CString s_StartTime; //how many time have been spent on project, when it became active
+	CString s_StartTime; //how many time had been spent on project, when it became active
 	
 	//int m_index; // now index (if is visible); 
 

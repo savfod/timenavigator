@@ -6,26 +6,6 @@
 --------------------Configuration: TimeControl - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\DAE2~1\AppData\Local\Temp\RSP7109.tmp" with contents
-[
-/nologo /subsystem:windows /incremental:no /pdb:"Release/TimeControl.pdb" /machine:I386 /out:"Release/TimeControl.exe" 
-".\Release\DayTimeSpent.obj"
-".\Release\DlgAdding.obj"
-".\Release\DlgAllTasks.obj"
-".\Release\DlgCorrect.obj"
-".\Release\DlgError.obj"
-".\Release\DlgSure.obj"
-".\Release\MainFrm.obj"
-".\Release\StdAfx.obj"
-".\Release\Task.obj"
-".\Release\TimeControl.obj"
-".\Release\TimeControlDoc.obj"
-".\Release\TimeControlView.obj"
-".\Release\TimeControl.res"
-]
-Creating command line "link.exe @C:\Users\DAE2~1\AppData\Local\Temp\RSP7109.tmp"
-<h3>Output Window</h3>
-Linking...
 
 
 

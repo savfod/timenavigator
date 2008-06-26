@@ -87,7 +87,7 @@ CString CTask::ItoS(int seconds)
 	CString s;
 
 	if(seconds<0)
-		return (s);
+		return ("0:00:00");
 
 	s = ':';
 
@@ -133,15 +133,17 @@ void CTask::StartTime()
 {
 	t_StartTime = time(NULL);
 	s_StartTime = s_TimeSpent;//
+	nStartTimeToday = ArrayTimeDay[0].seconds;
 }
 void CTask::StopTime()
 {
 	s_TimeSpent = TimeUpdate();
+	nStartTimeToday = ArrayTimeDay[0].seconds ;
 }	
 
 
 
-CString CTask::Correct(CString NewName, bool IsNegative, CString hours, CString minutes, CString seconds)
+CString CTask::Correct(CString NewName, int IsNegative, bool NotToday, CString hours, CString minutes, CString seconds)
 {
 	s_StartTime = s_TimeSpent;//
 	Name = NewName;
@@ -159,6 +161,14 @@ CString CTask::Correct(CString NewName, bool IsNegative, CString hours, CString 
 	if(IsNegative)
 		time = -time;
 	s_TimeSpent = StringTimeIncrease(time);
+	//for today time spent
+	if(!NotToday)
+	{
+		nStartTimeToday += time;
+		if(nStartTimeToday<0)
+			nStartTimeToday = 0;
+		ArrayTimeDay[0].seconds = nStartTimeToday; // because time is stopped 
+	}
 	return(s_TimeSpent);
 }
 
@@ -171,6 +181,7 @@ CString CTask::TimeUpdate()
 	int difference = (int)difftime(now, t_StartTime);
 	
 	s_TimeSpent = StringTimeIncrease(difference);//
+	ArrayTimeDay[0].seconds = nStartTimeToday + difference;
 	return(s_TimeSpent);//
 }
 
@@ -246,5 +257,16 @@ void CTask::NewDay()
 		ArrayTimeDay[0] = CDayTimeSpent();
 	else
 		ArrayTimeDay.InsertAt(0, CDayTimeSpent());
-	
+	nStartTimeToday = 0;
+}
+void CTask::TestNewDay(struct tm* day)
+{
+	if(ArrayTimeDay[0].day.tm_yday == day->tm_yday)
+		return;
+	NewDay();
+}
+
+CString CTask::GetTimeSpentToday()
+{
+	return(ItoS(ArrayTimeDay[0].seconds));
 }
